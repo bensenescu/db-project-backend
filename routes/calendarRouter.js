@@ -8,11 +8,17 @@ router.route('/sections')
   .post(calendarController.createSection)
   .delete(calendarController.deleteSection);
 
-router.route('/users')
-  .post(calendarController.createUser);
+router.route('/students')
+  .post(calendarController.createStudent);
 
-router.route('/users/:email')
-  .get(calendarController.getUser);
+router.route('/students/:email')
+  .get(calendarController.getStudent);
+
+router.route('/professors')
+  .post(calendarController.createProfessor);
+
+router.route('/professors/:email')
+  .get(calendarController.getProfessor);
 
 router.route('/courses')
   .post(calendarController.createCourse)
