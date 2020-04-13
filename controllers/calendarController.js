@@ -65,29 +65,40 @@ async function createStudent(req, res) {
   });
 }
 
-async function getStudent(req, res) {
-  const { studentId } = req.params;
-  const sql = 'SELECT * FROM students WHERE studentId = ?';
+async function getStudents(req, res) {
+  const sql = 'SELECT * FROM students';
 
-  connection.query(sql, studentId, (error, results) => {
+  connection.query(sql, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
-      res.send(results[0]);
+      res.send(results);
     }
   });
 }
 
+async function getStudent(req, res) {
+  const { email } = req.params;
+  const sql = 'SELECT * FROM students WHERE email = ?';
 
-async function createStudent(req, res) {
-  const student = req.body;
-  const sql = 'INSERT INTO students SET ?';
-
-  connection.query(sql, student, (error, results) => {
+  connection.query(sql, email, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
-      res.send({ results });
+      res.send(results);
+    }
+  });
+}
+
+async function deleteStudent(req, res) {
+  const { email } = req.params;
+  const sql = 'DELETE FROM students WHERE email = ?';
+
+  connection.query(sql, email, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results[0]);
     }
   });
 }
@@ -253,9 +264,9 @@ async function deleteEnrollment(req, res) {
 
 async function createTodoItem(req, res) {
   const todoItem = req.body;
-  const sql = 'INSERT INTO todoItems SET ?';
+  const sql = 'INSERT INTO todoItem SET ?';
 
-  connection.query(sql, todoItems, (error, results) => {
+  connection.query(sql, todoItem, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -265,10 +276,10 @@ async function createTodoItem(req, res) {
 }
 
 async function getTodoItems(req, res) {
-  const { todoItemId } = req.params;
-  const sql = 'SELECT * FROM todoItems WHERE todoitemId = ?';
+  const { itemId } = req.params;
+  const sql = 'SELECT * FROM todoItem WHERE itemId = ?';
 
-  connection.query(sql, todoItemId, (error, results) => {
+  connection.query(sql, itemId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -278,10 +289,10 @@ async function getTodoItems(req, res) {
 }
 
 async function deleteTodoItem(req, res) {
-  const { todoItemId } = req.body;
-  const sql = 'DELETE FROM todoItems WHERE todoItemId = ?';
+  const { itemId } = req.body;
+  const sql = 'DELETE FROM todoItem WHERE itemId = ?';
 
-  connection.query(sql, todoItemId, (error, results) => {
+  connection.query(sql, itemId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -296,6 +307,8 @@ module.exports = {
   createSection,
   deleteSection,
   getStudent,
+  getStudents,
+  deleteStudent,
   createStudent,
   getProfessor,
   createProfessor,
@@ -309,4 +322,7 @@ module.exports = {
   getUserEnrollments,
   getSectionEnrollments,
   deleteEnrollment,
+  createTodoItem,
+  deleteTodoItem,
+  getTodoItems
 };

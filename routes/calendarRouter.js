@@ -9,9 +9,10 @@ router.route('/sections')
   .delete(calendarController.deleteSection);
 
 router.route('/students')
-  .post(calendarController.createStudent);
+  .post(calendarController.createStudent)
+  .get(calendarController.getStudents);
 
-router.route('/students/:studentId')
+router.route('/students/:email')
   .get(calendarController.getStudent)
   .delete(calendarController.deleteStudent);
 
@@ -36,5 +37,11 @@ router.route('/enrollment')
   .get(calendarController.getUserEnrollments)
   .get(calendarController.getSectionEnrollments)
   .delete(calendarController.deleteEnrollment);
+
+router.route('/todo')
+  .post(calendarController.createTodoItem)
+  .get(calendarController.getTodoItems)
+  .delete(calendarController.deleteTodoItem)
+
 
 module.exports = router;
