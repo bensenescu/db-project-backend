@@ -24,4 +24,10 @@ router.route('/calendarItems')
   .get(calendarController.getCalendarItems)
   .delete(calendarController.deleteCalendarItem);
 
+router.route('/enrollment')
+  .post(calendarController.createEnrollment)
+  .get(calendarController.getUserEnrollments)
+  .get(calendarController.getSectionEnrollments)
+  .delete(calendarController.deleteEnrollment);
+
 module.exports = router;

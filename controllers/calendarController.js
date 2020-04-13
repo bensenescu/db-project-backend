@@ -155,6 +155,61 @@ async function deleteCalendarItem(req, res) {
 }
 
 
+async function createEnrollment(req, res) {
+  const enrollment = req.body;
+  const sql = 'INSERT INTO enrollment SET ?';
+
+  connection.query(sql, enrollment, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+
+async function getUserEnrollments(req, res) {
+  const { email } = req.params;
+  const sql = 'SELECT * FROM enrollment WHERE email = ?';
+
+  connection.query(sql, email, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function getSectionEnrollments(req, res) {
+  const { sectionId } = req.params;
+  const sql = 'SELECT * FROM enrollment WHERE sectionId = ?';
+
+  connection.query(sql, sectionId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function deleteEnrollment(req, res) {
+  const { sectionId } = req.body;
+  const { email } = req.body;
+  const sql = 'DELETE FROM enrollment WHERE sectionId = ? AND email = ?';
+
+  connection.query(sql, sectionId, email, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+
 module.exports = {
   getSections,
   createSection,
@@ -166,5 +221,9 @@ module.exports = {
   getCourses,
   createCalendarItem,
   getCalendarItems,
-  deleteCalendarItem
+  deleteCalendarItem,
+  createEnrollment,
+  getUserEnrollments,
+  getSectionEnrollments,
+  deleteEnrollment
 };
