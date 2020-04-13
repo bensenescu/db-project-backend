@@ -51,12 +51,36 @@ async function deleteSection(req, res) {
   });
 }
 
-async function getUser(req, res) {
-  const { email } = req.params;
+async function createStudent(req, res) {
+  const student = req.body;
+  const sql = 'INSERT INTO students SET ?';
 
-  const sql = 'SELECT * FROM users WHERE email = ? LIMIT 1';
+  connection.query(sql, student, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send({ results });
+    }
+  });
+}
 
-  connection.query(sql, email, (error, results) => {
+async function getStudents(req, res) {
+  const sql = 'SELECT * FROM students';
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function getStudent(req, res) {
+  const { studentId } = req.params;
+  const sql = 'SELECT * FROM students WHERE studentId = ?';
+
+  connection.query(sql, studentId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -65,11 +89,11 @@ async function getUser(req, res) {
   });
 }
 
-async function createUser(req, res) {
-  const user = req.body;
-  const sql = 'INSERT INTO users SET ?';
+async function deleteStudent(req, res) {
+  const { studentId } = req.body;
+  const sql = 'INSERT INTO students SET ?';
 
-  connection.query(sql, user, (error, results) => {
+  connection.query(sql, student, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -170,10 +194,10 @@ async function createEnrollment(req, res) {
 
 
 async function getUserEnrollments(req, res) {
-  const { email } = req.params;
-  const sql = 'SELECT * FROM enrollment WHERE email = ?';
+  const { userId } = req.params;
+  const sql = 'SELECT * FROM enrollment WHERE userId = ?';
 
-  connection.query(sql, email, (error, results) => {
+  connection.query(sql, userId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -197,10 +221,50 @@ async function getSectionEnrollments(req, res) {
 
 async function deleteEnrollment(req, res) {
   const { sectionId } = req.body;
-  const { email } = req.body;
-  const sql = 'DELETE FROM enrollment WHERE sectionId = ? AND email = ?';
+  const { userId } = req.body;
+  const sql = 'DELETE FROM enrollment WHERE sectionId = ? AND userId = ?';
 
-  connection.query(sql, sectionId, email, (error, results) => {
+  connection.query(sql, sectionId, userId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+
+async function createTodoItem(req, res) {
+  const todoItem = req.body;
+  const sql = 'INSERT INTO todoItems SET ?';
+
+  connection.query(sql, todoItems, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function getTodoItems(req, res) {
+  const { todoItemId } = req.params;
+  const sql = 'SELECT * FROM todoItems WHERE todoitemId = ?';
+
+  connection.query(sql, todoItemId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function deleteTodoItem(req, res) {
+  const { todoItemId } = req.body;
+  const sql = 'DELETE FROM todoItems WHERE todoItemId = ?';
+
+  connection.query(sql, todoItemId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -214,16 +278,7 @@ module.exports = {
   getSections,
   createSection,
   deleteSection,
-  getUser,
-  createUser,
-  createCourse,
-  deleteCourse,
-  getCourses,
-  createCalendarItem,
-  getCalendarItems,
-  deleteCalendarItem,
-  createEnrollment,
-  getUserEnrollments,
-  getSectionEnrollments,
-  deleteEnrollment
+  createStudent,
+  getStudent,
+  getStudents
 };
