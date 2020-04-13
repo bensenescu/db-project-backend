@@ -18,6 +18,7 @@ const professors = require('./routes/professors');
 const sections = require('./routes/sections');
 const students = require('./routes/students');
 const todo = require('./routes/todo');
+const label = require('./routes/label');
 
 app.use('/api/calendar/calendarItems', calendarItems);
 app.use('/api/calendar/courses', courses);
@@ -26,5 +27,6 @@ app.use('/api/calendar/professors', professors);
 app.use('/api/calendar/sections', sections);
 app.use('/api/calendar/students', students);
 app.use('/api/calendar/todo', todo);
+app.use('/api/calendar/labels', label);
 
 module.exports = app;
