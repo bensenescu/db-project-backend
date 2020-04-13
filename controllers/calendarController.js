@@ -1,5 +1,6 @@
 const fs = require('fs');
 const mysql = require('mysql');
+// const uuid = require('uuid');
 
 const connection = mysql.createConnection({
   host: '34.73.147.161',
@@ -64,18 +65,6 @@ async function createStudent(req, res) {
   });
 }
 
-async function getStudents(req, res) {
-  const sql = 'SELECT * FROM students';
-
-  connection.query(sql, (error, results) => {
-    if (error) {
-      res.send({ error });
-    } else {
-      res.send(results);
-    }
-  });
-}
-
 async function getStudent(req, res) {
   const { studentId } = req.params;
   const sql = 'SELECT * FROM students WHERE studentId = ?';
@@ -89,11 +78,39 @@ async function getStudent(req, res) {
   });
 }
 
-async function deleteStudent(req, res) {
-  const { studentId } = req.body;
+
+async function createStudent(req, res) {
+  const student = req.body;
   const sql = 'INSERT INTO students SET ?';
 
   connection.query(sql, student, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send({ results });
+    }
+  });
+}
+
+async function getProfessor(req, res) {
+  const { email } = req.params;
+
+  const sql = 'SELECT * FROM professors WHERE email = ? LIMIT 1';
+
+  connection.query(sql, email, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results[0]);
+    }
+  });
+}
+
+async function createProfessor(req, res) {
+  const professor = req.body;
+  const sql = 'INSERT INTO professors SET ?';
+
+  connection.query(sql, professor, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -278,7 +295,18 @@ module.exports = {
   getSections,
   createSection,
   deleteSection,
-  createStudent,
   getStudent,
-  getStudents
+  createStudent,
+  getProfessor,
+  createProfessor,
+  createCourse,
+  deleteCourse,
+  getCourses,
+  createCalendarItem,
+  getCalendarItems,
+  deleteCalendarItem,
+  createEnrollment,
+  getUserEnrollments,
+  getSectionEnrollments,
+  deleteEnrollment,
 };

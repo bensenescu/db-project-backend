@@ -9,33 +9,32 @@ router.route('/sections')
   .delete(calendarController.deleteSection);
 
 router.route('/students')
-  .post(calendarController.createStudent)
-  .get(calendarController.getStudents);
+  .post(calendarController.createStudent);
 
 router.route('/students/:studentId')
-  .get(calendarController.getStudent);
+  .get(calendarController.getStudent)
+  .delete(calendarController.deleteStudent);
 
-// router.route('/courses')
-//   .post(calendarController.createCourse)
-//   .get(calendarController.getCourses)
-//   .delete(calendarController.deleteCourse);
+router.route('/professors')
+  .post(calendarController.createProfessor);
 
-// router.route('/calendarItems')
-//   .post(calendarController.createCalendarItem)
-//   .get(calendarController.getCalendarItems)
-//   .delete(calendarController.deleteCalendarItem);
+router.route('/professors/:email')
+  .get(calendarController.getProfessor);
 
-// router.route('/enrollment')
-//   .post(calendarController.createEnrollment)
-//   .get(calendarController.getUserEnrollments)
-//   .delete(calendarController.deleteEnrollment);
+router.route('/courses')
+  .post(calendarController.createCourse)
+  .get(calendarController.getCourses)
+  .delete(calendarController.deleteCourse);
 
-// router.route('/enrollment/:sectionId')
-//   .get(calendarController.getSectionEnrollments)
+router.route('/calendarItems')
+  .post(calendarController.createCalendarItem)
+  .get(calendarController.getCalendarItems)
+  .delete(calendarController.deleteCalendarItem);
 
-// router.route('/todo')
-//   .post(calendarController.createTodoItem)
-//   .get(calendarController.getTodoItems)
-//   .delete(calendarController.deleteTodoItem);
+router.route('/enrollment')
+  .post(calendarController.createEnrollment)
+  .get(calendarController.getUserEnrollments)
+  .get(calendarController.getSectionEnrollments)
+  .delete(calendarController.deleteEnrollment);
 
 module.exports = router;
