@@ -5,7 +5,8 @@ const students = require('../controllers/students');
 
 router.route('')
   .get(students.getStudents)
-  .post(students.createStudent);
+  .post(students.createStudent)
+  .put(students.updateStudent);
 
 router.route('/:email')
   .get(students.getStudent)

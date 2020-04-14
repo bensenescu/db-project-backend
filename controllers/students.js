@@ -27,13 +27,13 @@ async function getStudents(req, res) {
 
 async function getStudent(req, res) {
   const { email } = req.params;
-  const sql = 'SELECT * FROM students WHERE email = ?';
+  const sql = 'SELECT * FROM students WHERE email = ? limit 1';
 
   connection.query(sql, email, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
-      res.send(results);
+      res.send(results[0]);
     }
   });
 }
@@ -51,9 +51,24 @@ async function deleteStudent(req, res) {
   });
 }
 
+async function updateStudent(req, res) {
+  const student = req.body;
+  console.log(student);
+  const sql = 'Update students set ? where studentId = ? ';
+
+  connection.query(sql, [student, student.studentId], (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results[0]);
+    }
+  });
+}
+
 module.exports = {
   createStudent,
   getStudents,
   getStudent,
   deleteStudent,
+  updateStudent,
 };
