@@ -13,11 +13,36 @@ async function createLabel(req, res) {
   });
 }
 
-async function getStudentLabels(req, res) {
-  const studentId = req.params;
-  const sql = 'Select * from labels where studentId = ?';
+async function getLabels(req, res) {
+  const sql = 'Select * from labels ';
 
-  connection.query(sql, studentId, (error, results) => {
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function deleteLabel(req, res) {
+  const { labelId } = req.params;
+  const sql = 'Delete from labels where labelId = ?';
+
+  connection.query(sql, labelId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function updateLabel(req, res) {
+  const label = req.body;
+  const sql = 'Update labels set ? where labelId = ? ';
+
+  connection.query(sql, [label, label.labelId], (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -28,5 +53,7 @@ async function getStudentLabels(req, res) {
 
 module.exports = {
   createLabel,
-  getStudentLabels,
+  getLabels,
+  deleteLabel,
+  updateLabel,
 };

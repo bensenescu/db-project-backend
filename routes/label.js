@@ -5,6 +5,10 @@ const label = require('../controllers/label');
 
 router.route('/')
   .post(label.createLabel)
-  .get(label.getStudentLabels);
+  .get(label.getLabels)
+  .put(label.updateLabel);
+
+router.route('/:labelId')
+  .delete(label.deleteLabel);
 
 module.exports = router;

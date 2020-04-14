@@ -3,7 +3,7 @@ const { connection } = require('../config/envConfig');
 
 async function createTodoItem(req, res) {
   const todoItem = req.body;
-  const sql = 'INSERT INTO todoItem SET ?';
+  const sql = 'INSERT INTO todoItems SET ?';
 
   connection.query(sql, todoItem, (error, results) => {
     if (error) {
@@ -15,10 +15,9 @@ async function createTodoItem(req, res) {
 }
 
 async function getTodoItems(req, res) {
-  const { itemId } = req.params;
-  const sql = 'SELECT * FROM todoItem WHERE itemId = ?';
+  const sql = 'SELECT * FROM todoItems';
 
-  connection.query(sql, itemId, (error, results) => {
+  connection.query(sql, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -28,10 +27,10 @@ async function getTodoItems(req, res) {
 }
 
 async function deleteTodoItem(req, res) {
-  const { itemId } = req.body;
-  const sql = 'DELETE FROM todoItem WHERE itemId = ?';
+  const { todoId } = req.params;
+  const sql = 'DELETE FROM todoItems WHERE itemId = ?';
 
-  connection.query(sql, itemId, (error, results) => {
+  connection.query(sql, todoId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -40,8 +39,23 @@ async function deleteTodoItem(req, res) {
   });
 }
 
+async function updateTodoItem(req, res) {
+  const todoItem = req.body;
+  const sql = 'update todoItems SET ? where itemId = ?';
+
+  connection.query(sql, [todoItem, todoItem.itemId], (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+
 module.exports = {
   createTodoItem,
   getTodoItems,
   deleteTodoItem,
+  updateTodoItem,
 };

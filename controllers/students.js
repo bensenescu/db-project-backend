@@ -52,8 +52,9 @@ async function deleteStudent(req, res) {
 }
 
 async function getStudentCalendarItems(req, res) {
-  let { studentId } = req.params;
-  studentId = parseInt(studentId, 10);
+  const { studentId } = req.params;
+  console.log(req.params);
+  console.log(typeof studentId);
   const sql = 'Call get_student_calendar_items(?)';
 
   connection.query(sql, studentId, (error, results) => {
@@ -67,7 +68,6 @@ async function getStudentCalendarItems(req, res) {
 
 async function updateStudent(req, res) {
   const student = req.body;
-  console.log(student);
   const sql = 'Update students set ? where studentId = ? ';
 
   connection.query(sql, [student, student.studentId], (error, results) => {
@@ -79,6 +79,33 @@ async function updateStudent(req, res) {
   });
 }
 
+async function getStudentTodos(req, res) {
+  const { studentId } = req.params;
+  const sql = 'Select * from todoItems where studentId = ?';
+
+  connection.query(sql, studentId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function enrollInSection(req, res) {
+  const { section, user } = req.body;
+  const enrollment = { studentId: user.studentId, sectionId: section.sectionId };
+  const sql = 'Insert into enrollment set ?';
+
+  connection.query(sql, enrollment, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
 module.exports = {
   createStudent,
   getStudents,
@@ -86,4 +113,6 @@ module.exports = {
   deleteStudent,
   updateStudent,
   getStudentCalendarItems,
+  getStudentTodos,
+  enrollInSection,
 };

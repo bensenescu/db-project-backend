@@ -15,4 +15,10 @@ router.route('/:email')
 router.route('/calendarItems/:studentId')
   .get(students.getStudentCalendarItems);
 
+router.route('/todoItems/:studentId')
+  .get(students.getStudentTodos);
+
+router.route('/enroll')
+  .post(students.enrollInSection);
+
 module.exports = router;
