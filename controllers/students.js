@@ -51,6 +51,20 @@ async function deleteStudent(req, res) {
   });
 }
 
+async function getStudentCalendarItems(req, res) {
+  let { studentId } = req.params;
+  studentId = parseInt(studentId, 10);
+  const sql = 'Call get_student_calendar_items(?)';
+
+  connection.query(sql, studentId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results[0]);
+    }
+  });
+}
+
 async function updateStudent(req, res) {
   const student = req.body;
   console.log(student);
@@ -71,4 +85,5 @@ module.exports = {
   getStudent,
   deleteStudent,
   updateStudent,
+  getStudentCalendarItems,
 };

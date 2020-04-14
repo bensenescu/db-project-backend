@@ -12,4 +12,7 @@ router.route('/:email')
   .get(students.getStudent)
   .delete(students.deleteStudent);
 
+router.route('/calendarItems/:studentId')
+  .get(students.getStudentCalendarItems);
+
 module.exports = router;
