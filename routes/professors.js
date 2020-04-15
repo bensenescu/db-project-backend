@@ -9,4 +9,13 @@ router.route('/')
 router.route('/:email')
   .get(professors.getProfessor);
 
+router.route('/section/:professorId')
+  .get(professors.getSections);
+
+router.route('/teaching')
+  .post(professors.addTeacherToSection);
+
+router.route('/calendarItems/:professorId')
+  .get(professors.getCalendarItems);
+
 module.exports = router;

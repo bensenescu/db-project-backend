@@ -18,7 +18,11 @@ router.route('/calendarItems/:studentId')
 router.route('/todoItems/:studentId')
   .get(students.getStudentTodos);
 
+router.route('/sections/:studentId')
+  .get(students.getStudentSections);
+
 router.route('/enroll')
   .post(students.enrollInSection);
+
 
 module.exports = router;

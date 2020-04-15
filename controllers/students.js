@@ -53,15 +53,14 @@ async function deleteStudent(req, res) {
 
 async function getStudentCalendarItems(req, res) {
   const { studentId } = req.params;
-  console.log(req.params);
-  console.log(typeof studentId);
-  const sql = 'Call get_student_calendar_items(?)';
+
+  const sql = 'Select * from enrollment natural join sections natural join students natural join calendarItems where studentId = ?;';
 
   connection.query(sql, studentId, (error, results) => {
     if (error) {
       res.send({ error });
     } else {
-      res.send(results[0]);
+      res.send(results);
     }
   });
 }
@@ -106,6 +105,19 @@ async function enrollInSection(req, res) {
   });
 }
 
+async function getStudentSections(req, res) {
+  const { studentId } = req.params;
+  const sql = 'Select * from enrollment natural join sections where studentId = ?';
+
+  connection.query(sql, studentId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
 module.exports = {
   createStudent,
   getStudents,
@@ -115,4 +127,5 @@ module.exports = {
   getStudentCalendarItems,
   getStudentTodos,
   enrollInSection,
+  getStudentSections,
 };

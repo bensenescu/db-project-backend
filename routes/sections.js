@@ -11,4 +11,7 @@ router.route('/')
 router.route('/:sectionId')
   .delete(sections.deleteSection);
 
+router.route('/item')
+  .post(sections.addItemToSection);
+
 module.exports = router;

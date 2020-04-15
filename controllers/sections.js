@@ -51,9 +51,25 @@ async function updateSection(req, res) {
   });
 }
 
+async function addItemToSection(req, res) {
+  const { sectionId, item } = req.body;
+  const { itemId } = item;
+  const sql = 'INSERT INTO sectionsCalendarItems SET ?';
+
+  connection.query(sql, { sectionId, itemId }, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send({ results });
+    }
+  });
+}
+
+
 module.exports = {
   getSections,
   createSection,
   deleteSection,
   updateSection,
+  addItemToSection,
 };

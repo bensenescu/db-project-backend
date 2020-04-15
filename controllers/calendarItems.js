@@ -26,10 +26,23 @@ async function getCalendarItems(req, res) {
 }
 
 async function deleteCalendarItem(req, res) {
-  const { itemId } = req.body;
+  const { itemId } = req.params;
   const sql = 'DELETE FROM calendarItems WHERE itemId = ?';
 
   connection.query(sql, itemId, (error, results) => {
+    if (error) {
+      res.send({ error });
+    } else {
+      res.send(results);
+    }
+  });
+}
+
+async function updateCalendarItem(req, res) {
+  const calendarItem = req.body;
+  const sql = 'Update calendarItems SET ? where itemId = ?';
+
+  connection.query(sql, [calendarItem, calendarItem.itemId], (error, results) => {
     if (error) {
       res.send({ error });
     } else {
@@ -42,4 +55,5 @@ module.exports = {
   createCalendarItem,
   getCalendarItems,
   deleteCalendarItem,
+  updateCalendarItem,
 };
